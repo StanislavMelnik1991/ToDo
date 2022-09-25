@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useAppDispatch, useAppSelector } from '@hooks';
+import { useEffect } from 'react';
+import { fetchToDoLists } from '@reducers/ActionCreator';
+import * as style from './App.css';
+import ToDoList from './components/ToDoList';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
-function App() {
+const App = () => {
+  const dispatch = useAppDispatch();
+  const { toDoLists } = useAppSelector((state) => state.toDoListReducer);
+  useEffect(() => {
+    dispatch(fetchToDoLists());
+  }, []);
+  const toDoListsArr = Object.keys(toDoLists);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <div className={style.App}>
+    <Header />
+    {toDoListsArr.map((toDoList) => {
+      return <ToDoList
+      id={toDoList}
+      title={toDoLists[toDoList].title}
+      tasks={toDoLists[toDoList].tasks}
+      tasksForRender={toDoLists[toDoList].tasksForRender}
+      newTaskName={toDoLists[toDoList].newTaskName}
+      key={toDoList}
+    />;
+    })}
+    <Footer />
+  </div>
   );
-}
+};
 
 export default App;

@@ -1,26 +1,26 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist/",
+    "noImplicitAny": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "module": "es6",
+    "target": "es5",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node",
+    "paths": {
+      "@hooks": ["./src/hooks/redux.ts"],
+      "@reducers/*": ["./src/store/reducers/*"]
+    }
+    
   },
-  "include": [
-    "src"
-  ]
+  "files": [
+    "./src/index.tsx",
+    "./module.d.ts"
+  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+  "strict": true,
+  "noImplicitAny": true
 }
