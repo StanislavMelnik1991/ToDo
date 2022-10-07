@@ -78,6 +78,7 @@ export const toDoListSlice = createSlice({
         id: taskId,
         isDone: false,
         title,
+        error: { isError: false, message: '' },
       };
       state.toDoLists[action.payload.toDoListId].newTaskName = '';
       const tasksForRender = Object.keys(state.toDoLists[action.payload.toDoListId].tasks);
@@ -113,10 +114,17 @@ export const toDoListSlice = createSlice({
     },
     changeTaskName(
       state,
-      action: PayloadAction<{ toDoListId: string, taskId: string, name: string }>,
+      action: PayloadAction<{ toDoListId: string, taskId?: string, name: string }>,
     ) {
-      const task = state.toDoLists[action.payload.toDoListId].tasks[action.payload.taskId];
-      task.title = action.payload.name;
+      if (!action.payload.taskId) {
+        const title = state.toDoLists[action.payload.toDoListId];
+        title.title = action.payload.name;
+      } else {
+        const task = state.toDoLists[action.payload.toDoListId].tasks[action.payload.taskId];
+        task.error.isError = false;
+        task.error.message = '';
+        task.title = action.payload.name;
+      }
     },
 
   },

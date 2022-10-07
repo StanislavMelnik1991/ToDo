@@ -26,9 +26,11 @@ const App = () => {
       <Header />
       <AddItemForm
         error={error}
+        button='+'
         onAddHandler={createToDoList}
         onChangeHandler={inputHandler}
         value={newToDoListName}
+        autoFocus={false}
       />
       <div className={style.toDoLists}>
         {toDoListsArr.map((toDoList) => {

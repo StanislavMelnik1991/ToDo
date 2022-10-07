@@ -3,16 +3,17 @@ export interface IToDoList {
   title: string,
   newTaskName: string;
   error: ErrorType;
-  tasks: { [taskId: string]: Task };
+  tasks: { [taskId: string]: ITask };
   tasksForRender: string[];
   filter: Filter;
 }
 
-type Task = {
+export interface ITask {
   id: string,
   isDone: boolean,
   title: string,
-};
+  error: ErrorType,
+}
 
 export type ErrorType = {
   isError: boolean,

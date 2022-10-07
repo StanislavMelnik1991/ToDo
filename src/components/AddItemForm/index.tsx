@@ -4,12 +4,16 @@ import * as style from './style.css';
 type AddItemFormType = {
   error: ErrorType;
   value: string;
+  button: string;
+  autoFocus?: boolean;
   onChangeHandler: (value: string) => void;
   onAddHandler: () => void;
+  onBlur?: () => void;
+  onEsc?: () => void;
 };
 
 export const AddItemForm = ({
-  error, value, onChangeHandler, onAddHandler,
+  error, value, button, onChangeHandler, onAddHandler, onBlur, autoFocus = true, onEsc,
 }: AddItemFormType) => {
   return (
     <div className={style.wrapper}>
@@ -18,17 +22,20 @@ export const AddItemForm = ({
           className={error.isError ? style.error : ''}
           type="text"
           value={value}
+          autoFocus={autoFocus}
           onChange={(ev) => {
             onChangeHandler(ev.currentTarget.value);
           }}
           onKeyDown={(ev) => {
             (ev.code === 'Enter') && onAddHandler();
+            (ev.code === 'Escape') && onEsc && onEsc();
           }}
+          onBlur={onBlur}
         />
         <button
           onClick={() => { onAddHandler(); }}
           className={error.isError ? style.error : ''}>
-          +
+          {button}
         </button>
       </div>
       {error.isError && <div className={style.error_message}>{error.message}</div>}
