@@ -1,11 +1,12 @@
 import { useAppDispatch } from '@hooks';
 import { toDoListSlice } from '@reducers/toDoListSlice';
-import { IToDoList } from '../../types';
+import { Filter, IToDoList } from '../../types';
 import * as style from './style.css';
 import Task from '../Task';
+import { AddItemForm } from '../AddItemForm';
 
 const ToDoList = ({
-  title, tasks, id, newTaskName, tasksForRender,
+  title, tasks, id, newTaskName, tasksForRender, error, filter,
 }: IToDoList) => {
   const dispatch = useAppDispatch();
   const { setNewTaskName, createNewTask, setFilter } = toDoListSlice.actions;
@@ -15,27 +16,23 @@ const ToDoList = ({
   const create = () => {
     dispatch(createNewTask({ toDoListId: id }));
   };
-  const filter = (filter: 'all' | 'active' | 'completed') => {
+  const setFilterHandler = (filter: Filter) => {
     dispatch(setFilter({ toDoListId: id, filter }));
   };
   return (
     <div className={style.wrapper}>
       <h3>{title}</h3>
-      <div>
-        <input
-        type="text"
+      <AddItemForm
+        error={error}
+        onAddHandler={create}
+        onChangeHandler={input}
         value={newTaskName}
-        onChange={(ev) => {
-          input(ev.currentTarget.value);
-        }}
-        />
-        <button onClick={() => { create(); }}>+</button>
-      </div>
-      <ul>
+      />
+      <ul className={style.tasks}>
         {tasksForRender.map((taskId) => {
           return (
             <Task
-              id={taskId}
+              taskId={taskId}
               isDone={tasks[taskId].isDone}
               title={tasks[taskId].title}
               toDoListId={id}
@@ -45,9 +42,9 @@ const ToDoList = ({
         })}
       </ul>
       <div>
-        <button onClick={() => filter('all')}>All</button>
-        <button onClick={() => filter('active')}>Active</button>
-        <button onClick={() => filter('completed')}>Completed</button>
+        <button className={filter === 'all' && style.active_btn} onClick={() => setFilterHandler('all')}>All</button>
+        <button className={filter === 'active' && style.active_btn} onClick={() => setFilterHandler('active')}>Active</button>
+        <button className={filter === 'completed' && style.active_btn} onClick={() => setFilterHandler('completed')}>Completed</button>
       </div>
     </div>
   );

@@ -1,20 +1,21 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v1 } from 'uuid';
-import { IToDoList } from '../../types';
+import { ErrorType, Filter, IToDoList } from '../../types';
 import { toDoList } from './toDoList';
 
 interface IToDoListState {
   toDoLists: { [id: string]: IToDoList },
   isLoading: boolean,
-  error: string,
+  newToDoListName: string,
+  error: ErrorType,
 }
 
 const initialState: IToDoListState = {
   toDoLists: {},
   isLoading: false,
-  error: '',
+  newToDoListName: '',
+  error: { isError: false, message: '' },
 };
 
 export const toDoListSlice = createSlice({
@@ -38,23 +39,55 @@ export const toDoListSlice = createSlice({
 
     setNewTaskName(state, action: PayloadAction<{ toDoListId: string, name: string }>) {
       state.toDoLists[action.payload.toDoListId].newTaskName = action.payload.name;
+      state.toDoLists[action.payload.toDoListId].error.isError = false;
+    },
+    setNewToDoListName(state, action: PayloadAction<string>) {
+      state.newToDoListName = action.payload;
+      state.error.isError = false;
+    },
+    createNewToDoList(state) {
+      state.newToDoListName = state.newToDoListName.trim();
+      if (state.newToDoListName === '') {
+        state.error.isError = true;
+        state.error.message = 'Title is required';
+        return;
+      }
+      const id = v1();
+      const toDoList: IToDoList = {
+        error: { isError: false, message: '' },
+        filter: 'all',
+        id,
+        newTaskName: '',
+        tasks: {},
+        tasksForRender: [],
+        title: state.newToDoListName,
+      };
+      state.toDoLists[id] = toDoList;
     },
 
     createNewTask(state, action: PayloadAction<{ toDoListId: string }>) {
       const title = state.toDoLists[action.payload.toDoListId].newTaskName.trim();
+      state.toDoLists[action.payload.toDoListId].newTaskName = title;
+      if (title === '') {
+        state.toDoLists[action.payload.toDoListId].error.isError = true;
+        state.toDoLists[action.payload.toDoListId].error.message = 'Title is required';
+        return;
+      }
       const taskId = v1();
       state.toDoLists[action.payload.toDoListId].tasks[taskId] = {
         id: taskId,
         isDone: false,
         title,
       };
+      state.toDoLists[action.payload.toDoListId].newTaskName = '';
       const tasksForRender = Object.keys(state.toDoLists[action.payload.toDoListId].tasks);
       state.toDoLists[action.payload.toDoListId].tasksForRender = tasksForRender;
     },
 
-    setFilter(state, action: PayloadAction<{ toDoListId: string, filter: 'all' | 'active' | 'completed' }>) {
+    setFilter(state, action: PayloadAction<{ toDoListId: string, filter: Filter }>) {
       const { tasks } = state.toDoLists[action.payload.toDoListId];
       const tasksForRender: string[] = [];
+      state.toDoLists[action.payload.toDoListId].filter = action.payload.filter;
       switch (action.payload.filter) {
         case 'active':
           Object.keys(tasks).forEach((id) => {
@@ -77,6 +110,13 @@ export const toDoListSlice = createSlice({
           state.toDoLists[action.payload.toDoListId].tasksForRender = Object.keys(tasks);
           break;
       }
+    },
+    changeTaskName(
+      state,
+      action: PayloadAction<{ toDoListId: string, taskId: string, name: string }>,
+    ) {
+      const task = state.toDoLists[action.payload.toDoListId].tasks[action.payload.taskId];
+      task.title = action.payload.name;
     },
 
   },

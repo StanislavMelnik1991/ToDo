@@ -1,16 +1,17 @@
 import { useAppDispatch } from '@hooks';
 import { toDoListSlice } from '@reducers/toDoListSlice';
+import { EditableSpan } from '../EditableSpan';
 import * as style from './style.css';
 
 type TaskType = {
-  id: string,
+  taskId: string,
   title: string,
   isDone: boolean,
   toDoListId: string
 };
 
 const Task = ({
-  id, title, isDone, toDoListId,
+  taskId, title, isDone, toDoListId,
 }: TaskType) => {
   const dispatch = useAppDispatch();
   const { toggleIsDone, removeTask } = toDoListSlice.actions;
@@ -22,9 +23,10 @@ const Task = ({
   };
 
   return (
-    <li key={id} className={style.wrapper}>
-      <input type="checkbox" checked={isDone} onChange={() => toggle(toDoListId, id)}/><span>{title}</span>
-      <button onClick={() => remove(toDoListId, id)}>X</button>
+    <li key={taskId} className={`${style.wrapper} ${isDone && style.completed}`}>
+      <input type="checkbox" checked={isDone} onChange={() => toggle(toDoListId, taskId)}/>
+      <EditableSpan title={title} />
+      <button onClick={() => remove(toDoListId, taskId)}>X</button>
     </li>
   );
 };

@@ -2,8 +2,10 @@ export interface IToDoList {
   id: string,
   title: string,
   newTaskName: string;
-  tasks: { [taskId: string]: Task }
-  tasksForRender: string[]
+  error: ErrorType;
+  tasks: { [taskId: string]: Task };
+  tasksForRender: string[];
+  filter: Filter;
 }
 
 type Task = {
@@ -11,3 +13,10 @@ type Task = {
   isDone: boolean,
   title: string,
 };
+
+export type ErrorType = {
+  isError: boolean,
+  message: string
+};
+
+export type Filter = 'all' | 'active' | 'completed';
