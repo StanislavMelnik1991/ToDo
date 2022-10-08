@@ -27,7 +27,7 @@ export const AddItemForm = ({
             onChangeHandler(ev.currentTarget.value);
           }}
           onKeyDown={(ev) => {
-            (ev.code === 'Enter') && onAddHandler();
+            (ev.code === 'Enter' || ev.code === 'NumpadEnter') && onAddHandler();
             (ev.code === 'Escape') && onEsc && onEsc();
           }}
           onBlur={onBlur}

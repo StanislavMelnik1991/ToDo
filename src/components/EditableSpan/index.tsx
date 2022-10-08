@@ -28,7 +28,10 @@ export const EditableSpan = ({
     setEditMode(false);
   };
   const onEsc = () => setEditMode(false);
-  const onChange = (value: string) => setNewTitle(value);
+  const onChange = (value: string) => {
+    setError({ isError: false, message: '' });
+    setNewTitle(value);
+  };
   return (editMode
     ? <AddItemForm
       value={newTitle}
