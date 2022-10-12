@@ -2,7 +2,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v1 } from 'uuid';
 import { ErrorType, Filter, IToDoList } from '../../types';
-import { toDoList } from './toDoList';
 
 interface IToDoListState {
   toDoLists: { [id: string]: IToDoList },
@@ -22,8 +21,8 @@ export const toDoListSlice = createSlice({
   name: 'toDoList',
   initialState,
   reducers: {
-    init(state) {
-      state.toDoLists[toDoList.id] = toDoList;
+    init(state, action: PayloadAction<IToDoList>) {
+      state.toDoLists[action.payload.id] = action.payload;
     },
 
     toggleIsDone(state, action: PayloadAction<{ toDoListId: string, taskId: string }>) {
@@ -35,6 +34,9 @@ export const toDoListSlice = createSlice({
       delete state.toDoLists[action.payload.toDoListId].tasks[action.payload.taskId];
       const tasksForRender = Object.keys(state.toDoLists[action.payload.toDoListId].tasks);
       state.toDoLists[action.payload.toDoListId].tasksForRender = tasksForRender;
+    },
+    removeToDoList(state, action: PayloadAction<{ toDoListId: string }>) {
+      delete state.toDoLists[action.payload.toDoListId];
     },
 
     setNewTaskName(state, action: PayloadAction<{ toDoListId: string, name: string }>) {
@@ -131,3 +133,14 @@ export const toDoListSlice = createSlice({
 });
 
 export default toDoListSlice.reducer;
+export const {
+  changeTaskName,
+  createNewTask,
+  createNewToDoList,
+  init, removeTask,
+  removeToDoList,
+  setFilter,
+  setNewTaskName,
+  setNewToDoListName,
+  toggleIsDone,
+} = toDoListSlice.actions;

@@ -1,4 +1,6 @@
 import { useAppDispatch } from '@hooks';
+import { Checkbox, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { toDoListSlice } from '@reducers/toDoListSlice';
 import { ITask } from '../../types';
 import { EditableSpan } from '../EditableSpan';
@@ -20,10 +22,14 @@ const Task = ({
     dispatch(changeTaskName({ name: title, taskId: id, toDoListId }));
   };
 
-  const removeBtn = <button onClick={() => remove(toDoListId, id)}>X</button>;
+  const removeBtn = <IconButton
+    aria-label="delete"
+    onClick={() => remove(toDoListId, id)} >
+    <DeleteIcon />
+  </IconButton>;
   return (
     <li key={id} className={`${style.wrapper} ${isDone && style.completed}`}>
-      <input type="checkbox" checked={isDone} onChange={() => toggle(toDoListId, id)} />
+      <Checkbox checked={isDone} onChange={() => toggle(toDoListId, id)} />
       <EditableSpan
         title={title}
         onChangeHandler={renameTask}

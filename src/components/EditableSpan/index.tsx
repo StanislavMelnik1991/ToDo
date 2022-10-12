@@ -1,3 +1,4 @@
+import { LibraryAddCheck } from '@mui/icons-material';
 import { useState } from 'react';
 import { ErrorType } from '../../types';
 import { AddItemForm } from '../AddItemForm';
@@ -36,18 +37,18 @@ export const EditableSpan = ({
     ? <AddItemForm
       value={newTitle}
       error={error}
-      button='✔'
+      button={<LibraryAddCheck />}
       onAddHandler={onAddHandler}
       onChangeHandler={onChange}
       onBlur={onAddHandler}
       onEsc={onEsc} />
-    : <>
+    : <div className={style.wrapper}>
       <span
-        className={style.wrapper}
+        className={style.span}
         onDoubleClick={activateEditMode}>
         {title}
       </span>
       {buttons}
-    </>
+    </div>
   );
 };

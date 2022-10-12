@@ -1,10 +1,12 @@
+import { IconButton, TextField } from '@mui/material';
+import { ReactElement } from 'react';
 import { ErrorType } from '../../types';
 import * as style from './style.css';
 
 type AddItemFormType = {
   error: ErrorType;
   value: string;
-  button: string;
+  button: ReactElement<any, any>;
   autoFocus?: boolean;
   onChangeHandler: (value: string) => void;
   onAddHandler: () => void;
@@ -17,28 +19,28 @@ export const AddItemForm = ({
 }: AddItemFormType) => {
   return (
     <div className={style.wrapper}>
-      <div className={style.form}>
-        <input
-          className={error.isError ? style.error : ''}
-          type="text"
-          value={value}
-          autoFocus={autoFocus}
-          onChange={(ev) => {
-            onChangeHandler(ev.currentTarget.value);
-          }}
-          onKeyDown={(ev) => {
-            (ev.code === 'Enter' || ev.code === 'NumpadEnter') && onAddHandler();
-            (ev.code === 'Escape') && onEsc && onEsc();
-          }}
-          onBlur={onBlur}
-        />
-        <button
-          onClick={() => { onAddHandler(); }}
-          className={error.isError ? style.error : ''}>
-          {button}
-        </button>
-      </div>
-      {error.isError && <div className={style.error_message}>{error.message}</div>}
+      <TextField
+        error={error.isError}
+        helperText={error.isError ? error.message : null}
+        value={value}
+        label={'Type value'}
+        title={'Type value'}
+        variant={'outlined'}
+        autoFocus={autoFocus}
+        onChange={(ev) => {
+          onChangeHandler(ev.currentTarget.value);
+        }}
+        onKeyDown={(ev) => {
+          (ev.code === 'Enter' || ev.code === 'NumpadEnter') && onAddHandler();
+          (ev.code === 'Escape') && onEsc && onEsc();
+        }}
+        onBlur={onBlur}
+      />
+      <IconButton
+        onClick={() => { onAddHandler(); }}
+        color={'primary'}>
+        {button}
+      </IconButton>
     </div>
   );
 };

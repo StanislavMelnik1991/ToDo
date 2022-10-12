@@ -2,6 +2,9 @@ import { useAppDispatch, useAppSelector } from '@hooks';
 import { useEffect } from 'react';
 import { fetchToDoLists } from '@reducers/ActionCreator';
 import { toDoListSlice } from '@reducers/toDoListSlice';
+import { toDoList } from '@reducers/toDoList';
+import { NoteAdd } from '@mui/icons-material';
+import { Container, Grid, Paper } from '@mui/material';
 import * as style from './App.css';
 import ToDoList from './components/ToDoList';
 import { Header } from './components/Header';
@@ -13,7 +16,7 @@ const App = () => {
   const { toDoLists, error, newToDoListName } = useAppSelector((state) => state.toDoListReducer);
   const { createNewToDoList, setNewToDoListName } = toDoListSlice.actions;
   useEffect(() => {
-    dispatch(fetchToDoLists());
+    dispatch(fetchToDoLists(toDoList));
   }, []);
 
   const createToDoList = () => dispatch(createNewToDoList());
@@ -24,28 +27,39 @@ const App = () => {
   return (
     <div className={style.App}>
       <Header />
-      <AddItemForm
-        error={error}
-        button='+'
-        onAddHandler={createToDoList}
-        onChangeHandler={inputHandler}
-        value={newToDoListName}
-        autoFocus={false}
-      />
-      <div className={style.toDoLists}>
-        {toDoListsArr.map((toDoList) => {
-          return <ToDoList
-            id={toDoList.id}
-            title={toDoList.title}
-            tasks={toDoList.tasks}
-            error={toDoList.error}
-            filter={toDoList.filter}
-            tasksForRender={toDoList.tasksForRender}
-            newTaskName={toDoList.newTaskName}
-            key={toDoList.id}
-          />;
-        })}
-      </div>
+      <Container fixed>
+        <Grid container style={{ padding: '0 0 2rem 0' }}>
+          <Paper style={{ padding: '1rem' }}>
+            <AddItemForm
+              error={error}
+              button={<NoteAdd />}
+              onAddHandler={createToDoList}
+              onChangeHandler={inputHandler}
+              value={newToDoListName}
+              autoFocus={false}
+            />
+          </Paper>
+        </Grid>
+        <Grid container spacing={3}>
+          {toDoListsArr.map((toDoList) => {
+            return <Grid item>
+              <Paper style={{ padding: '1rem' }}>
+                <ToDoList
+                  id={toDoList.id}
+                  title={toDoList.title}
+                  tasks={toDoList.tasks}
+                  error={toDoList.error}
+                  filter={toDoList.filter}
+                  tasksForRender={toDoList.tasksForRender}
+                  newTaskName={toDoList.newTaskName}
+                  key={toDoList.id}
+                />
+              </Paper>
+            </Grid>;
+          })}
+
+        </Grid>
+      </Container>
       <Footer />
     </div>
   );

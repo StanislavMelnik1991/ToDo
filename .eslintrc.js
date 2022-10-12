@@ -24,5 +24,6 @@ module.exports = {
 		"no-nested-ternary": "off",
 		"arrow-body-style": "off",
 		"import/prefer-default-export": "off",
+		"@typescript-eslint/no-unused-vars": "warn",
 	},
 };
