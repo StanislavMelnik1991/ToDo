@@ -54,6 +54,7 @@ const ToDoList = ({
         onChangeHandler={input}
         value={newTaskName}
         autoFocus={false}
+        message={'task name'}
       />
       <ul className={style.tasks}>
         {tasksForRender.map((taskId) => {

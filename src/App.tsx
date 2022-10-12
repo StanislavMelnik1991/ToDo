@@ -37,6 +37,7 @@ const App = () => {
               onChangeHandler={inputHandler}
               value={newToDoListName}
               autoFocus={false}
+              message={'ToDoList name'}
             />
           </Paper>
         </Grid>

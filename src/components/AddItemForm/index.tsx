@@ -8,6 +8,7 @@ type AddItemFormType = {
   value: string;
   button: ReactElement<any, any>;
   autoFocus?: boolean;
+  message: string;
   onChangeHandler: (value: string) => void;
   onAddHandler: () => void;
   onBlur?: () => void;
@@ -15,7 +16,7 @@ type AddItemFormType = {
 };
 
 export const AddItemForm = ({
-  error, value, button, onChangeHandler, onAddHandler, onBlur, autoFocus = true, onEsc,
+  error, value, button, onChangeHandler, onAddHandler, onBlur, autoFocus = true, onEsc, message,
 }: AddItemFormType) => {
   return (
     <div className={style.wrapper}>
@@ -23,7 +24,7 @@ export const AddItemForm = ({
         error={error.isError}
         helperText={error.isError ? error.message : null}
         value={value}
-        label={'Type value'}
+        label={`Enter ${message}`}
         title={'Type value'}
         variant={'outlined'}
         autoFocus={autoFocus}
