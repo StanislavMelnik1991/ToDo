@@ -11,7 +11,7 @@ module.exports = {
 	parserOptions: {
 		project: './tsconfig.json'
 	},
-  plugins: [
+	plugins: [
 		'@typescript-eslint',
 	],
 	rules: {
@@ -19,8 +19,8 @@ module.exports = {
 		"@typescript-eslint/no-shadow": "off",
 		"no-plusplus": "off",
 		"no-unused-expressions": "off",
-  		"@typescript-eslint/no-unused-expressions": "off",
-        "import/extensions": [1, {'tsx': "never"}],
+		"@typescript-eslint/no-unused-expressions": "off",
+		"import/extensions": [1, { 'tsx': "never" }],
 		"no-nested-ternary": "off",
 		"arrow-body-style": "off",
 		"import/prefer-default-export": "off",

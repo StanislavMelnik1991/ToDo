@@ -3,14 +3,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v1 } from 'uuid';
 import { ErrorType, Filter, IToDoList } from '../../types';
 
-interface IToDoListState {
+export interface IToDoListState {
   toDoLists: { [id: string]: IToDoList },
   isLoading: boolean,
   newToDoListName: string,
   error: ErrorType,
 }
 
-const initialState: IToDoListState = {
+export const initialState: IToDoListState = {
   toDoLists: {},
   isLoading: false,
   newToDoListName: '',

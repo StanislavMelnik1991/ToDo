@@ -24,6 +24,7 @@ export const AddItemForm = ({
         error={error.isError}
         helperText={error.isError ? error.message : null}
         value={value}
+        type='text'
         label={`Enter ${message}`}
         title={'Type value'}
         variant={'outlined'}

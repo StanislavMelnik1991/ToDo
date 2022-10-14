@@ -41,7 +41,7 @@ export const EditableSpan = ({
       onAddHandler={onAddHandler}
       onChangeHandler={onChange}
       onBlur={onAddHandler}
-      message={'new value'}
+      message={'new name'}
       onEsc={onEsc} />
     : <div className={style.wrapper}>
       <span
