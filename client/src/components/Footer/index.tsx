@@ -10,7 +10,7 @@ export const Footer = () => {
   };
   return (
     <footer className={style.wrapper}>
-      <AppBar position={'static'} variant='outlined'>
+      <AppBar position={'static'}>
         <IconButton edge={'start'} color={'inherit'} onClick={onClick}>
           <GitHub />
           <Typography variant={'h6'} style={{ paddingLeft: '0.5rem' }}>
