@@ -1,4 +1,4 @@
-import { Route, Link, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Main } from '../components/Main';
 
 export const Routers = () => {
